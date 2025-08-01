@@ -1,7 +1,9 @@
 pipeline {
-    agent any
-    tools {
-        nodejs('24.5.0')
+    agent {
+        docker {
+            image 'node:22'
+            reuseNode true
+        }
     }
     stages {
         stage('Install Dependencies') {
