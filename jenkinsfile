@@ -1,9 +1,38 @@
 pipeline {
     agent any
+    tools {
+        nodejs('24.5.0')
+    }
     stages {
-        stage("Startup Stage") {
+        stage('Install Dependencies') {
             steps {
-                echo 'Hello World'
+                sh '''
+                    npm -v
+                    if [ -d node_modules ]; then
+                        echo 'Using cached build'
+                    else 
+                        npm ci
+                    fi                        
+                   '''
+            }
+        }
+        stage('Lint and Test') {
+            parallel {
+                stage('Lint') {
+                    steps {
+                        sh 'npm run lint'
+                    }
+                }
+                stage('Test') {
+                    steps {
+                        sh 'npm test'
+                    }
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'npm run build'
             }
         }
     }
