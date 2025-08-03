@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "dotenv": "^17.2.1",
     "jest-junit": "^16.0.0",
     "playwright": "^1.54.2",
     "react": "^18.2.0",
@@ -20,14 +21,16 @@
     "@types/node": "^20.8.6",
     "@vitejs/plugin-react": "^4.7.0",
     "babel-jest": "^30.0.5",
+    "cross-env": "^10.0.0",
     "identity-obj-proxy": "^3.0.0",
     "vite": "^7.0.6"
   },
   "scripts": {
     "start": "bunx vite",
     "build": "bunx vite build",
-    "test": "bunx jest --testResultsProcessor=\"jest-junit\"",
-    "testp": "bunx playwright test",
+    "jest": "bunx jest --testResultsProcessor=\"jest-junit\"",
+    "testp:local": "cross-env NODE_ENV=local bunx playwright test",
+    "testp:ci": "cross-env NODE_ENV=ci bunx playwright test",
     "eject": "bunx vite eject"
   },
   "eslintConfig": {

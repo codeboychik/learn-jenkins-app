@@ -16,11 +16,10 @@ pipeline {
         }
         stage('Build and Test') {
             steps {
-                sh '''
+                sh ''' 
+                    bun run testp:ci
+                    bun run jest
                     bun run build
-                    bunx serve -s build &  
-                    bun run testp
-                    bun run test
                    '''
             }
         }
