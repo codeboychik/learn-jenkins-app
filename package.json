@@ -29,7 +29,7 @@
     "start": "bunx vite",
     "build": "bunx vite build",
     "jest": "bunx jest --testResultsProcessor=\"jest-junit\"",
-    "testp:local": "cross-env NODE_ENV=local npx playwright test",
+    "testp:local": "cross-env NODE_ENV=local bunx playwright test",
     "testp:ci": "cross-env NODE_ENV=ci npx playwright test",
     "eject": "bunx vite eject"
   },
