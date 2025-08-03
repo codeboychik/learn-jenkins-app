@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'oven/bun:latest'
+            image 'oven/bun:debian'
             reuseNode true
         }
     }
