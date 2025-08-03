@@ -9,6 +9,8 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
+                    ls -la
+                    whoami
                     bun -v   
                     bun install
                     bunx playwright install
@@ -18,6 +20,8 @@ pipeline {
         stage('Build and Test') {
             steps {
                 sh ''' 
+                    ls -la
+                    whoami
                     bun run testp:ci
                     bun run jest
                     bun run build
