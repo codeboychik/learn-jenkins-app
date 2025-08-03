@@ -18,7 +18,6 @@ pipeline {
         stage('Build and Test') {
             steps {
                 sh ''' 
-                    npm install -g bun
                     bun run testp
                     bun run jest
                     bun run build
