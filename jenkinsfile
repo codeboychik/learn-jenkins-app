@@ -9,6 +9,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
+                    npm install bun
                     bun install
                     bun -v
                     bunx playwright install
