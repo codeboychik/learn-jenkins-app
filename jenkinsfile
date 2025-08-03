@@ -11,7 +11,8 @@ pipeline {
                 sh '''
                     bun -v   
                     bun install
-                    bunx playwright install --with-deps
+                    whoami
+                    bunx playwright install
                    '''
             }
         }
