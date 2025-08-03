@@ -11,6 +11,7 @@ pipeline {
             steps {
                 sh '''
                     npm install -g bun
+                    bun pm cache rm -g -f
                     bun install
                     bun -v
                     bunx playwright install
