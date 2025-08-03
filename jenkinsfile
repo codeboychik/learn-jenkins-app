@@ -11,7 +11,8 @@ pipeline {
                 sh '''
                     ls -la
                     whoami
-                    bun -v   
+                    bun -v
+                    npm -v   
                     bun install
                     bunx playwright install
                    '''
