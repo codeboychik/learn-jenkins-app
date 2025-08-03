@@ -65,7 +65,7 @@ module.exports = defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: 'bun run start',
-    url: 'http://localhost:3000',
+    url: process.env.CI_ENVIRONMENT_URL,
     reuseExistingServer: !process.env.CI || true,
   },
 });
