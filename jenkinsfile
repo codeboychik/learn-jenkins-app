@@ -9,27 +9,20 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                    npm -v
-                    if [ -d node_modules ]; then
-                        echo 'Using cached build'
-                    else 
-                        npm ci
-                    fi                        
+                    bun -v
+                    node -v
+                    bun install                 
                    '''
             }
         }
         stage('Build and Test') {
-            parallel {
-                stage('Test') {
-                    steps {
-                        sh 'npm test'
-                    }
-                }
-                stage('Build') {
-                    steps {
-                        sh 'npm run build'
-                    }
-                }
+            steps {
+                sh '''
+                    bun run start 
+                    bun run testp
+                    bun run test
+                    bun run build
+                   '''
             }
         }
     }

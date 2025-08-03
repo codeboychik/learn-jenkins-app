@@ -3,20 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/preset-react": "^7.27.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "jest-junit": "^16.0.0",
+    "playwright": "^1.54.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "@babel/preset-env": "^7.28.0",
+    "@playwright/test": "^1.39.0",
+    "@types/node": "^20.8.6",
+    "@vitejs/plugin-react": "^4.7.0",
+    "babel-jest": "^30.0.5",
+    "identity-obj-proxy": "^3.0.0",
+    "vite": "^7.0.6"
+  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --testResultsProcessor=\"jest-junit\"",
-    "eject": "react-scripts eject"
+    "start": "bunx vite",
+    "build": "bunx vite build",
+    "test": "bunx jest --testResultsProcessor=\"jest-junit\"",
+    "testp": "bunx playwright test",
+    "eject": "bunx vite eject"
   },
   "eslintConfig": {
     "extends": [
@@ -35,10 +47,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.39.0",
-    "@types/node": "^20.8.6"
   },
   "jest-junit": {
     "suiteName": "jest tests",
