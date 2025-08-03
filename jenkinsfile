@@ -9,9 +9,9 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
+                    bun install  
                     bun -v
-                    node -v
-                    bun install                 
+                    node -v               
                    '''
             }
         }
