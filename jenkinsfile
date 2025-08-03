@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'oven/bun:latest'
+            image 'node:22-alpine'
             reuseNode true
         }
     }
@@ -9,9 +9,8 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                    env
-                    bun -v
                     bun install
+                    bun -v
                     bunx playwright install
                    '''
             }
