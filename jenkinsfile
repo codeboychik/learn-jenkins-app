@@ -10,11 +10,7 @@ pipeline {
             steps {
                 sh '''
                     npm -v
-                    if [ -d node_modules ]; then
-                        echo 'Using cached build'
-                    else 
-                        npm ci
-                    fi                        
+                    npm ci                       
                    '''
             }
         }
