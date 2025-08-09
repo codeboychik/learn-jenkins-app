@@ -25,6 +25,7 @@ pipeline {
                 }
             }
             steps {
+                sh 'ls -la'
                 sh 'npm test'
                 sh 'test -f ./build/index.html'
                 sh 'npx serve -s build &'
@@ -39,6 +40,7 @@ pipeline {
     post {
         always {
             junit 'test-results/junit.xml'
+            cleanWs()
         }
     }
 }
