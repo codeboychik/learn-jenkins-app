@@ -11,23 +11,17 @@ pipeline {
                 sh 'npm ci'
             }
         }
-        stage('Build and Test') {
-            parallel {
-                stage('Test') {
-                    steps {
-                        sh '''
-                           npm test
-                           if [ ! -a ./build/index.html ]; then
-                                exit 1;
-                           fi
-                            '''
-                    }
-                }
-                stage('Build') {
-                    steps {
-                        sh 'npm run build'
-                    }
-                }
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh '''
+                   npm test
+                   test -f ./build/index.html
+                    '''
             }
         }
     }
