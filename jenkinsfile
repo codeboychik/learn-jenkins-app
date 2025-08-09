@@ -3,7 +3,6 @@ pipeline {
         docker {
             image 'node:22-alpine'
             reuseNode true
-            args '-u 0'
         }
     }
     stages {
@@ -21,6 +20,7 @@ pipeline {
             agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.50.0-noble'
+                    reuseNode true
                 }
             }
             steps {
