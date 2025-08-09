@@ -21,8 +21,8 @@ pipeline {
                 sh '''
                    npm test
                    test -f ./build/index.html
-                   serve -s build &
-                   playwright test
+                   npx serve -s build &
+                   npx playwright test
                     '''
             }
         }
