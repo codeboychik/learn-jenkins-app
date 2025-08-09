@@ -41,6 +41,7 @@ pipeline {
     }
     post {
         always {
+            sh 'pwd; ls -la'
             junit 'test-results/junit.xml'
             cleanWs()
         }
