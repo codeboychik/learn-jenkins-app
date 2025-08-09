@@ -31,17 +31,15 @@ pipeline {
                 }
             }
             steps {
-                sh 'ls -la'
                 sh 'test -f ./build/index.html'
                 sh 'npx serve -s build &'
-                sh 'npx playwright test'
+                sh 'npx playwright test --reporter=html'
                 sh 'npm test'
             }
         }
     }
     post {
         always {
-            sh 'pwd; ls -la'
             junit 'test-results/junit.xml'
             cleanWs()
         }
