@@ -53,7 +53,7 @@ pipeline {
                sh '''
                     echo "deploying siteID $NETLIFY_SITE_ID"
                     ls -la build
-                    npx netlify deploy --dir=build --prod --skip-build
+                    npx netlify deploy --dir=build --prod
                   '''
             }
         }
