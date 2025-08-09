@@ -5,9 +5,14 @@ pipeline {
         }
     }
     stages {
+        stage('Clean') {
+            steps {
+                deleteDir()
+            }
+        }
         stage('Install Dependencies') {
             steps {
-                sh 'ls -la /var/jenkins_home/workspace/sample-react-app/node_modules/@aashutoshrathi/word-wrap; whoami'
+                sh 'ls -la; whoami'
                 sh 'npm ci'
             }
         }
