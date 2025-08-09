@@ -19,7 +19,11 @@ pipeline {
                 stage('Test') {
                     steps {
                         sh 'npm test'
-                        sh 'if [ ! -a ./build/index.html ]; then exit 1 fi'
+                        sh '''
+                           if [ ! -a ./build/index.html ]; then
+                                exit 1;
+                           fi
+                            '''
                     }
                 }
                 stage('Build') {
