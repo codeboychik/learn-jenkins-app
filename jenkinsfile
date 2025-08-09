@@ -27,8 +27,9 @@ pipeline {
                 sh '''
                    npm test
                    test -f ./build/index.html
-                   npx serve -s build &
-                   npx playwright test
+                   npx concurrently \\
+                       "npx serve -s build" \\
+                       "wait-on http://localhost:3000 && npx playwright test"
                     '''
             }
         }
