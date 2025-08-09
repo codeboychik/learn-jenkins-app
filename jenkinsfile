@@ -32,10 +32,10 @@ pipeline {
             }
             steps {
                 sh 'ls -la'
-                sh 'npm test'
                 sh 'test -f ./build/index.html'
                 sh 'npx serve -s build &'
                 sh 'npx playwright test'
+                sh 'npm test'
             }
         }
     }
