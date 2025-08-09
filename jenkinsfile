@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         NETLIFY_SITE_ID = '36c13370-5018-4c3f-a1f4-a67c86060fbb'
+        NETLIFY_AUTH_TOKEN = credentials('NETLIFY_ACCESS_TOKEN')
     }
 
     stages {
@@ -49,7 +50,11 @@ pipeline {
                 }
             }
             steps {
-               sh 'echo "deploying siteID $NETLIFY_SITE_ID"'
+               sh '''
+                    echo "deploying siteID $NETLIFY_SITE_ID"
+                    npx netlify deploy --dir=build --prod
+                  '''
+
             }
         }
     }
