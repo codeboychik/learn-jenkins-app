@@ -3,6 +3,7 @@ pipeline {
         docker {
             image 'node:22-alpine'
             reuseNode true
+            args '-u 0'
         }
     }
     stages {
@@ -10,7 +11,7 @@ pipeline {
             steps {
                 sh '''
                     npm ci
-                    npx playwright install
+                    npx playwright install --with-deps
                    '''
             }
         }
