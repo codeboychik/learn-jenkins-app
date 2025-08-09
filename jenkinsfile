@@ -8,6 +8,7 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
+                sh 'ls -la'
                 sh 'npm ci'
             }
         }
@@ -24,14 +25,14 @@ pipeline {
                 }
             }
             steps {
-                sh '''
-                    npm test
-                    test -f ./build/index.html
-                    npx serve -s build &
-                    SERVER_PID=$!
-                    npx playwright test
-                    kill $SERVER_PID
-                   '''
+                sh 'npm test'
+                sh 'test -f ./build/index.html'
+                sh 'npx serve -s build &'
+                sh 'SERVER_PID=$!'
+                sh 'npx playwright test'
+                sh 'kill $SERVER_PID'
+
+
             }
         }
     }
