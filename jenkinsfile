@@ -52,6 +52,7 @@ pipeline {
             steps {
                sh '''
                     echo "deploying siteID $NETLIFY_SITE_ID"
+                    ls -la
                     npx netlify deploy --dir=build --prod
                   '''
 
