@@ -25,12 +25,13 @@ pipeline {
             }
             steps {
                 sh '''
-                   npm test
-                   test -f ./build/index.html
-                   npx concurrently \\
-                       "npx serve -s build" \\
-                       "wait-on http://localhost:3000 && npx playwright test"
-                    '''
+                    npm test
+                    test -f ./build/index.html
+                    npx serve -s build &
+                    SERVER_PID=$!
+                    npx playwright test
+                    kill $SERVER_PID
+                   '''
             }
         }
     }
