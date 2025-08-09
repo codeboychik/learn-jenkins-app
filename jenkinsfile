@@ -35,9 +35,7 @@ pipeline {
                 sh 'npm test'
                 sh 'test -f ./build/index.html'
                 sh 'npx serve -s build &'
-                sh 'SERVER_PID=$!'
                 sh 'npx playwright test'
-                sh 'kill $SERVER_PID'
             }
         }
     }
