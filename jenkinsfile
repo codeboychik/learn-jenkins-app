@@ -8,18 +8,15 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                sh '''
-                    npm -v
-                    npm ci                       
-                   '''
+                sh 'npm ci'
             }
         }
         stage('Build and Test') {
             parallel {
                 stage('Test') {
                     steps {
-                        sh 'npm test'
                         sh '''
+                           npm test
                            if [ ! -a ./build/index.html ]; then
                                 exit 1;
                            fi
