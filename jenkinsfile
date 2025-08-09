@@ -9,7 +9,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh 'ls -la'
-                sh 'npm ci'
+                sh 'npm install'
             }
         }
         stage('Build') {
