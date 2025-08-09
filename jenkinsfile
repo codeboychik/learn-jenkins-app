@@ -1,11 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Clean') {
-            steps {
-                sh 'sudo chown -R jenkins:jenkins /var/jenkins_home/workspace/sample-react-app'
-            }
-        }
         stage('Install Dependencies') {
             agent {
                 docker {
@@ -37,8 +32,6 @@ pipeline {
                 sh 'SERVER_PID=$!'
                 sh 'npx playwright test'
                 sh 'kill $SERVER_PID'
-
-
             }
         }
     }
