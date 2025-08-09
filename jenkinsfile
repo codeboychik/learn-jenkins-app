@@ -31,9 +31,10 @@ pipeline {
             }
             steps {
                 sh '''
-                    npx serve -s build &'
-                    npx playwright test --reporter=html'
-                    npm test'''
+                    npx serve -s build &
+                    npx playwright test --reporter=html
+                    npm test
+                    '''
             }
         }
     }
