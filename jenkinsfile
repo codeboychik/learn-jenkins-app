@@ -1,13 +1,12 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:22-alpine'
+            reuseNode true
+        }
+    }
     stages {
         stage('Install Dependencies') {
-            agent {
-                docker {
-                    image 'node:22-alpine'
-                    reuseNode true
-                }
-            }
             steps {
                 sh 'npm ci'
             }
