@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    environment {
+        NETLIFY_SITE_ID = '36c13370-5018-4c3f-a1f4-a67c86060fbb'
+    }
+
     stages {
         stage('Install & Build') {
             agent {
@@ -44,7 +49,7 @@ pipeline {
                 }
             }
             steps {
-               sh 'npx netlify --version'
+               sh 'echo "deploying siteID $NETLIFY_SITE_ID"'
             }
         }
     }
