@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Clean') {
             steps {
-                deleteDir()
+                sh 'sudo chown -R jenkins:jenkins /var/jenkins_home/workspace/sample-react-app'
             }
         }
         stage('Install Dependencies') {
@@ -14,7 +14,6 @@ pipeline {
                 }
             }
             steps {
-                sh 'ls -la; whoami'
                 sh 'npm ci'
             }
         }
