@@ -56,6 +56,44 @@ pipeline {
                   '''
             }
         }
+        stage('Test Prod') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.54.2-noble'
+                    reuseNode true
+                }
+            }
+            environment {
+                NETLIFY_SITE_ID = '36c13370-5018-4c3f-a1f4-a67c86060fbb'
+                NETLIFY_AUTH_TOKEN = credentials('NETLIFY_ACCESS_TOKEN')
+                CI_ENVIRONMENT_URL = 'https://luxury-elf-7a76fc.netlify.app/'
+            }
+            steps {
+                sh '''
+                    npx serve -s build &
+                    npx playwright test --reporter=html
+                    npm test
+                    '''
+            }
+            post {
+                always {
+                    junit 'test-results/junit.xml'
+                    publishHTML(
+                        [
+                            allowMissing: false,
+                            alwaysLinkToLastBuild: false,
+                            icon: '',
+                            keepAll: false,
+                            reportDir: 'playwright-report',
+                            reportFiles: 'index.html',
+                            reportName: 'PW Report Prod',
+                            reportTitles: '',
+                            useWrapperFileDirectly: true
+                        ]
+                    )
+                }
+            }
+        }
     }
     post {
         always {
