@@ -1,4 +1,6 @@
 // @ts-check
+require('dotenv').config();
+
 const { test, expect } = require('@playwright/test');
 
 test('has title', async ({ page }) => {
