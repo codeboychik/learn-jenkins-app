@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        NETLIFY_SITE_ID = '36c13370-5018-4c3f-a1f4-a67c86060fbb'
         NETLIFY_AUTH_TOKEN = credentials('NETLIFY_ACCESS_TOKEN')
+        NETLIFY_SITE_ID = '36c13370-5018-4c3f-a1f4-a67c86060fbb'
     }
 
     stages {
@@ -27,65 +27,55 @@ pipeline {
                 }
             }
         }
-        stage('Deploy preview') {
-            agent {
-                docker {
-                    image 'node:22'
-                    reuseNode true
-                }
-            }
-            steps {
-                sh '''
-                    echo "deploying siteID $NETLIFY_SITE_ID "
-                    npx netlify deploy --dir=build
-                  '''
-                script {
-                    env.STAGING_URL = sh(script: "npx node-jq -r '.deploy_url' deploy-output.json", returnStdout: true)
-                }
-            }
-
-        }
-        stage('Test preview') {
+        stage('Deploy & Test preview') {
             agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.54.2-noble'
                     reuseNode true
                 }
             }
-            environment {
-                NETLIFY_AUTH_TOKEN = credentials('NETLIFY_ACCESS_TOKEN')
-                CI_ENVIRONMENT_URL = "$env.STAGING_URL"
-            }
             steps {
                 sh '''
+                    npm install netlify-cli
+                    npx netlify deploy --dir=build
+                   '''
+                script {
+                    env.CI_ENVIRONMENT_URL = sh(script: "npx node-jq -r '.deploy_url' deploy-output.json", returnStdout: true)
+                }
+                sh '''
+                    env
                     npx playwright test --reporter=html
                     npm test
-                    '''
+                   '''
             }
-        }
-        stage('Approval') {
-            options {
-                timeout(time: 1, unit: "MINUTES")
-            }
-            steps {
-                input message: 'Continue to deploy?', ok: 'Deploy to Production'
-            }
-        }
-        stage('Deploy') {
-            agent {
-                docker {
-                    image 'node:22'
-                    reuseNode true
+            post {
+                always {
+                    junit 'test-results/junit.xml'
+                    publishHTML(
+                            [
+                                    allowMissing: false,
+                                    alwaysLinkToLastBuild: false,
+                                    icon: '',
+                                    keepAll: false,
+                                    reportDir: 'playwright-report',
+                                    reportFiles: 'index.html',
+                                    reportName: 'PW Report',
+                                    reportTitles: '',
+                                    useWrapperFileDirectly: true
+                            ]
+                    )
                 }
             }
-            steps {
-               sh '''
-                    echo "deploying siteID $NETLIFY_SITE_ID "
-                    npx netlify deploy --dir=build --prod
-                  '''
-            }
         }
-        stage('Test Prod') {
+        // stage('Approval') {
+        //     options {
+        //         timeout(time: 1, unit: "MINUTES")
+        //     }
+        //     steps {
+        //         input message: 'Continue to deploy?', ok: 'Deploy to Production'
+        //     }
+        // }
+        stage('Deploy & Test prod') {
             agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.54.2-noble'
@@ -93,16 +83,16 @@ pipeline {
                 }
             }
             environment {
-                NETLIFY_SITE_ID = '36c13370-5018-4c3f-a1f4-a67c86060fbb'
-                NETLIFY_AUTH_TOKEN = credentials('NETLIFY_ACCESS_TOKEN')
                 CI_ENVIRONMENT_URL = 'https://luxury-elf-7a76fc.netlify.app/'
             }
             steps {
                 sh '''
-                    npx serve -s build &
+                    npm install netlify-cli
+                    echo "deploying siteID $NETLIFY_SITE_ID"
+                    npx netlify deploy --dir=build --prod
                     npx playwright test --reporter=html
                     npm test
-                    '''
+                '''
             }
             post {
                 always {
@@ -122,24 +112,6 @@ pipeline {
                     )
                 }
             }
-        }
-    }
-    post {
-        always {
-            junit 'test-results/junit.xml'
-            publishHTML(
-                [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: false,
-                    icon: '',
-                    keepAll: false,
-                    reportDir: 'playwright-report',
-                    reportFiles: 'index.html',
-                    reportName: 'PW Report',
-                    reportTitles: '',
-                    useWrapperFileDirectly: true
-                ]
-            )
         }
     }
 }
