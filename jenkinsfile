@@ -27,21 +27,6 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/playwright:v1.54.2-noble'
-                    reuseNode true
-                }
-            }
-            steps {
-                sh '''
-                    npx serve -s build &
-                    npx playwright test --reporter=html
-                    npm test
-                    '''
-            }
-        }
         stage('Deploy preview') {
             agent {
                 docker {
@@ -54,6 +39,28 @@ pipeline {
                     echo "deploying siteID $NETLIFY_SITE_ID "
                     npx netlify deploy --dir=build
                   '''
+                script {
+                    env.STAGING_URL = sh(script: "npx node-jq -r '.deploy_url' deploy-output.json", returnStdout: true)
+                }
+            }
+
+        }
+        stage('Test preview') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.54.2-noble'
+                    reuseNode true
+                }
+            }
+            environment {
+                NETLIFY_AUTH_TOKEN = credentials('NETLIFY_ACCESS_TOKEN')
+                CI_ENVIRONMENT_URL = "$env.STAGING_URL"
+            }
+            steps {
+                sh '''
+                    npx playwright test --reporter=html
+                    npm test
+                    '''
             }
         }
         stage('Approval') {
