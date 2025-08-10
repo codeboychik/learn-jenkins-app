@@ -17,24 +17,13 @@ test('has Jenkins in the body', async ({ page }) => {
   expect(isVisible).toBeTruthy();
 });
 
-// test('has expected app version', async ({ page }) => {
-//   await page.goto('/');
-//
-//   const expectedAppVersion = process.env.REACT_APP_VERSION ? process.env.REACT_APP_VERSION : '1';
-//
-//   console.log(expectedAppVersion);
-//
-//   const isVisible = await page.locator(`p:has-text("Application version: ${expectedAppVersion}")`).isVisible();
-//   expect(isVisible).toBeTruthy();
-// });
+ test('has expected app version', async ({ page }) => {
+   await page.goto('/');
 
-test('has expected app version', async ({ page }) => {
-  const expectedAppVersion = process.env.REACT_APP_VERSION ? process.env.REACT_APP_VERSION : '1';
-  console.log('expectedAppVersion =', expectedAppVersion);
-  await page.goto('/', { waitUntil: 'networkidle' });
+   const expectedAppVersion = process.env.REACT_APP_VERSION ? process.env.REACT_APP_VERSION : '1';
 
-  const versionLocator = page.locator('p', {
-    hasText: `Application version: ${expectedAppVersion}`
-  });
-  await expect(versionLocator).toBeVisible({ timeout: 5000 });
-});
+   console.log(expectedAppVersion);
+
+   const isVisible = await page.locator(`p:has-text("Application version: ${expectedAppVersion}")`).isVisible();
+   expect(isVisible).toBeTruthy();
+ });
