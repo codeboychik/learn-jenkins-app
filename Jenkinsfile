@@ -8,6 +8,26 @@ pipeline {
     }
 
     stages {
+        stage('GCP Auth') {
+            agent {
+                docker {
+                    image 'google/cloud-sdk:536.0.1-slim'
+                    reuseNode true
+                }
+            }
+            steps {
+                withCredentials([file(credentialsId: 'GCP_AUTH', variable: 'GCP_KEY_FILE')]) {
+                    sh '''
+                    gcloud auth activate-service-account --key-file="$GCP_KEY_FILE"
+                    export GOOGLE_APPLICATION_CREDENTIALS="$GCP_KEY_FILE"
+                    gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
+                    gcloud config set project angular-lambda-431209
+                    gcloud auth list
+                    gcloud storage ls
+                    '''
+                }
+            }
+        }
         stage('Docker build') {
             steps {
                 sh '''
