@@ -1,0 +1,3 @@
+FROM mcr.microsoft.com/playwright:v1.54.2-noble
+RUN npm install netlify-cli dotenv
+

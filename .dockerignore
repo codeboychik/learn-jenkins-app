@@ -1,0 +1,9 @@
+node_modules
+build
+.github
+.devcontainer
+test-results
+playwright-report
+bun.lock
+README.md
+.env.local
