@@ -85,7 +85,7 @@ pipeline {
                 }
             }
             environment {
-                CI_ENVIRONMENT_URL = 'https://luxury-elf-7a76fc.netlify.app/'
+                CI_ENVIRONMENT_URL = 'https://celebrated-melomakarona-2c6052.netlify.app'
             }
             steps {
                 sh '''
