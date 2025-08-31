@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Docker build') {
             steps {
-                sh 'docker build -t playwright .'
+                sh 'docker build -f Dockerfile.pw -t playwright .'
             }
         }
         stage('Install & Build') {
